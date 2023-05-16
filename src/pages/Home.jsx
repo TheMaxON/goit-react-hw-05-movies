@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { getTrendingMovies } from '../services/api';
-import TrendingMovies from 'components/TrendingMovies/TrendingMovies';
+import MoviesList from 'components/MoviesList/MoviesList';
 import PageTitle from 'components/PageTitle/PageTitle';
+import { Section } from 'components/Section/Section';
 
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -19,10 +20,14 @@ const Home = () => {
     }
   };
   return (
-    <div>
-      <PageTitle title="Trending today" />
-      <TrendingMovies movies={trendingMovies} />
-    </div>
+    <>
+      <Section>
+        <PageTitle title="Trending Today" />
+      </Section>
+      <Section>
+        <MoviesList movies={trendingMovies} />
+      </Section>
+    </>
   );
 };
 

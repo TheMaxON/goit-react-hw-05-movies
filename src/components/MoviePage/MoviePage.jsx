@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { Section } from 'components/Section/Section';
@@ -18,10 +18,11 @@ const MoviePage = ({ movieInfo, Outlet }) => {
   const IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w400/';
   const { poster_path, title, vote_average, overview, genres } = movieInfo;
   const location = useLocation();
+  const backLinkRef = useRef(location.state?.from ?? '/');
   return (
     <>
       <Section>
-        <BackButton to={location.state?.from ?? '/'}>⨞ Go back</BackButton>
+        <BackButton to={backLinkRef.current}>⨞ Go back</BackButton>
       </Section>
       <Section>
         {!movieInfo && <h1>Loading...</h1>}

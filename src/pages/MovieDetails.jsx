@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getMovieInfo } from '../services/api';

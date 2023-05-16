@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { useLocation } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 import { Section } from 'components/Section/Section';
 import {
   MovieInfoSection,
@@ -57,3 +58,8 @@ const MoviePage = ({ movieInfo, Outlet }) => {
 };
 
 export default MoviePage;
+
+MoviePage.propTypes = {
+  movieInfo: PropTypes.object,
+  Outlet: PropTypes.element,
+};

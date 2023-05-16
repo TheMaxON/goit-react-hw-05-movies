@@ -1,5 +1,3 @@
-@import-normalize; /* bring in normalize.css styles */
-
 :root {
   --color-background: #02001e;
   --color-accent: #5b4ffc;

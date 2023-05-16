@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PropTypes } from 'prop-types';
 import { toast } from 'react-toastify';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { Form, Button, Input } from './Search.styled';
@@ -42,3 +43,7 @@ const Search = ({ onSubmit }) => {
 };
 
 export default Search;
+
+Search.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

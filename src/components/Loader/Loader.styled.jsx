@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Bars } from 'react-loader-spinner';
 
 export const StyledLoaderWrapper = styled.div`
   width: 100%;

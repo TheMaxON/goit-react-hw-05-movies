@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 
 export const MovieInfoSection = styled.div`
   display: flex;
@@ -46,4 +47,12 @@ export const MovieAdditionalDetails = styled.div`
   ::-webkit-scrollbar-thumb {
     background-color: var(--color-accent);
   }
+`;
+
+export const BackButton = styled(Link)`
+  color: var(--color-text);
+  text-decoration: none;
+  background-color: var(--color-primary);
+  padding: 10px 20px;
+  border-radius: 10px;
 `;

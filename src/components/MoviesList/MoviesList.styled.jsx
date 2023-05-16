@@ -5,6 +5,7 @@ export const StyledMoviesList = styled.ul`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 30px;
+  margin-top: 140px;
 `;
 
 export const MoviesListItem = styled(Link)`

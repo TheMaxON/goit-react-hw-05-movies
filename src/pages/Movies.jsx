@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Section } from 'components/Section/Section';
 import PageTitle from '../components/PageTitle/PageTitle';
@@ -13,20 +14,27 @@ const Movies = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const isFirstRender = useRef(true);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('query');
 
   useEffect(() => {
     if (isFirstRender.current || searchQuery === '') {
-      console.log('first render');
       isFirstRender.current = false;
       return;
     }
-    console.log('state working');
+
+    setSearchParams({ query: searchQuery });
     fetchSearchedMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
+
+  useEffect(() => {
+    query && setSearchQuery(query);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const onSumbit = query => {
     setSearchQuery(query);
-    console.log('onSumbit', query);
   };
 
   const fetchSearchedMovies = async () => {

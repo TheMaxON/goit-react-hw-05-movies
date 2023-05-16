@@ -1,7 +1,9 @@
+import { Suspense } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getMovieInfo } from '../services/api';
 import MoviePage from 'components/MoviePage/MoviePage';
+import Loader from '../components/Loader/Loader';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -24,6 +26,7 @@ const MovieDetails = () => {
 
   return (
     <>
+      {!movieInfo && <Loader />}
       <MoviePage movieInfo={movieInfo} Outlet={<Outlet />} />
     </>
   );

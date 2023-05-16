@@ -1,6 +1,6 @@
+import { Suspense } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Section } from 'components/Section/Section';
-import { Outlet } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import {
   MovieInfoSection,
   MoviePoster,
@@ -12,7 +12,7 @@ import {
 import PageTitle from 'components/PageTitle/PageTitle';
 import { StyledNav, StyledNavLink } from '../Header/Header.styled';
 
-const MoviePage = ({ movieInfo }) => {
+const MoviePage = ({ movieInfo, Outlet }) => {
   const IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w400/';
   const { poster_path, title, vote_average, overview, genres } = movieInfo;
   return (
@@ -38,7 +38,7 @@ const MoviePage = ({ movieInfo }) => {
               <StyledNavLink to="cast">Cast</StyledNavLink>
               <StyledNavLink to="reviews">Reviews</StyledNavLink>
             </StyledNav>
-            <Outlet />
+            <Suspense fallback={<div>Loading...</div>}>{Outlet}</Suspense>
           </MovieAdditionalDetails>
         </MovieInfoSection>
       </Section>

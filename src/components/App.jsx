@@ -1,10 +1,15 @@
+import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Home from '../pages/Home';
-import Movies from '../pages/Movies';
-import MovieDetails from '../pages/MovieDetails';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Cast from './Cast/Cast';
 import Reviews from './Reviews/Reviews';
 import { StyledHeader, StyledNav, StyledNavLink } from './Header/Header.styled';
+import Loader from './Loader/Loader';
+
+const Home = lazy(() => import('../pages/Home'));
+const Movies = lazy(() => import('../pages/Movies'));
+const MovieDetails = lazy(() => import('../pages/MovieDetails'));
 
 const App = () => {
   return (
@@ -16,13 +21,36 @@ const App = () => {
         </StyledNav>
       </StyledHeader>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/movies" element={<Movies />} />
-        <Route path="/movies/:movieId" element={<MovieDetails />}>
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<Loader />}>
+              <Home />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/movies"
+          element={
+            <Suspense fallback={<Loader />}>
+              <Movies />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/movies/:movieId"
+          element={
+            <Suspense fallback={<Loader />}>
+              <MovieDetails />
+            </Suspense>
+          }
+        >
           <Route path="cast" element={<Cast />} />
           <Route path="reviews" element={<Reviews />} />
         </Route>
+        <Route path="*" element={<Home />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 };

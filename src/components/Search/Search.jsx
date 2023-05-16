@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { Form, Button, Input } from './Search.styled';
 
@@ -14,7 +15,9 @@ const Search = ({ onSubmit }) => {
     const normalizedQuery = query.toLowerCase().trim();
 
     if (normalizedQuery === '') {
-      //   return toast.warning('Please enter your request.', { theme: 'dark' });
+      return toast.info("Please enter the movie you're looking for", {
+        theme: 'dark',
+      });
     }
     onSubmit(normalizedQuery);
     setQuery('');

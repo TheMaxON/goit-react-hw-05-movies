@@ -1,31 +1,44 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { getMovieReviews } from '../../services/api';
 import { Review } from './Reviews.styled';
+import SmallLoader from '../Loader/SmallLoader';
 
 const Reviews = () => {
-  const [movieReviews, setMovieReviews] = useState([]);
-
   const { movieId } = useParams();
 
-  useEffect(() => {
-    fetchMovieReviews();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [movieReviews, setMovieReviews] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const fetchMovieReviews = async () => {
-    try {
-      const data = await getMovieReviews(movieId);
-      setMovieReviews(data);
-    } catch (fetchError) {
-      console.log(fetchError);
-    }
-  };
+  useEffect(() => {
+    const fetchMovieReviews = async () => {
+      try {
+        setIsLoading(true);
+        const data = await getMovieReviews(movieId);
+        setMovieReviews(data);
+      } catch (error) {
+        toast.error('The error has occured. Error info: ', error, {
+          theme: 'dark',
+        });
+        console.log(error);
+        return setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMovieReviews();
+  }, [movieId]);
 
   return (
     <>
-      {movieReviews.length === 0 && <p>No reviews yet.</p>}
-      {movieReviews &&
+      {isLoading && <SmallLoader />}
+      {!isLoading && movieReviews.length === 0 && <p>No reviews yet.</p>}
+      {!isLoading &&
+        !error &&
+        movieReviews.length > 0 &&
         movieReviews.map(({ id, author, content }) => (
           <Review key={id}>
             <h2>{author}</h2>

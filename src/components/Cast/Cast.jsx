@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { getMovieCast } from '../../services/api';
 import {
   CastMemberWrapper,
@@ -8,44 +9,61 @@ import {
   CastMemberInfo,
   CastMemberName,
 } from './Cast.styled';
+import SmallLoader from '../Loader/SmallLoader';
+import ErrorScreen from '../ErrorScreen/ErrorScreen';
 
 const Cast = () => {
-  const [movieCast, setMovieCast] = useState([]);
-
   const { movieId } = useParams();
 
-  useEffect(() => {
-    fetchMovieCast();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [movieCast, setMovieCast] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const fetchMovieCast = async () => {
-    try {
-      const data = await getMovieCast(movieId);
-      setMovieCast(data);
-    } catch (fetchError) {
-      console.log(fetchError);
-    }
-  };
+  useEffect(() => {
+    const fetchMovieCast = async () => {
+      try {
+        setIsLoading(true);
+        const data = await getMovieCast(movieId);
+        setMovieCast(data);
+      } catch (error) {
+        toast.error('The error has occured. Error info: ', error, {
+          theme: 'dark',
+        });
+        console.log(error);
+        return setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMovieCast();
+  }, [movieId]);
 
   const IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w200/';
 
   return (
     <CastMemberWrapper>
-      {movieCast.length === 0 && <p>No cast info yet.</p>}
-      {movieCast &&
+      {isLoading && <SmallLoader />}
+      {!isLoading && movieCast.length === 0 && <p>No cast info yet.</p>}
+      {error && <ErrorScreen error={error} />}
+      {!isLoading &&
+        movieCast.length > 0 &&
+        !error &&
         movieCast.map(({ cast_id, name, character, profile_path }) => (
           <CastMember key={cast_id}>
-            {profile_path && (
-              <CastMemberPhoto
-                src={IMAGES_BASE_URL + profile_path}
-                loading="lazy"
-                alt={name}
-              />
-            )}
+            <CastMemberPhoto
+              src={
+                profile_path
+                  ? IMAGES_BASE_URL + profile_path
+                  : require('../../media/no-image-placeholder.png')
+              }
+              loading="lazy"
+              alt={name}
+            />
+
             <CastMemberInfo>
               <CastMemberName>{name}</CastMemberName>
-              <p>as {character}</p>
+              <p>{character ? `as ${character}` : ''}</p>
             </CastMemberInfo>
           </CastMember>
         ))}

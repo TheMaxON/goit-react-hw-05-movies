@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Section } from 'components/Section/Section';
@@ -7,50 +7,44 @@ import Search from '../components/Search/Search';
 import { getSearchedMovies } from '../services/api';
 import MoviesList from '../components/MoviesList/MoviesList';
 import Loader from '../components/Loader/Loader';
+import ErrorScreen from '../components/ErrorScreen/ErrorScreen';
 
 const Movies = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const query = searchParams.get('query');
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const isFirstRender = useRef(true);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get('query');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (isFirstRender.current || searchQuery === '') {
-      isFirstRender.current = false;
-      return;
+    if (query) {
+      const fetchSearchedMovies = async () => {
+        try {
+          setIsLoading(true);
+          const data = await getSearchedMovies(query);
+          setSearchedMovies(data);
+          if (data.length === 0) {
+            return toast.info('No movies found', {
+              theme: 'dark',
+            });
+          }
+        } catch (error) {
+          toast.error('The error has occured. Error info: ', error, {
+            theme: 'dark',
+          });
+          console.log(error);
+          return setError(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchSearchedMovies();
     }
-
-    setSearchParams({ query: searchQuery });
-    fetchSearchedMovies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery]);
-
-  useEffect(() => {
-    query && setSearchQuery(query);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, [query]);
 
   const onSumbit = query => {
-    setSearchQuery(query);
-  };
-
-  const fetchSearchedMovies = async () => {
-    try {
-      setIsLoading(true);
-      const data = await getSearchedMovies(searchQuery);
-      setSearchedMovies(data);
-      setIsLoading(false);
-      if (data.length === 0) {
-        return toast.info('No movies found', {
-          theme: 'dark',
-        });
-      }
-    } catch (fetchError) {
-      console.log(fetchError);
-    }
+    setSearchParams({ query: query });
   };
 
   return (
@@ -61,11 +55,13 @@ const Movies = () => {
       <Section>
         <Search onSubmit={onSumbit} />
       </Section>
-      <Section>
-        {isLoading && <Loader />}
-        {searchedMovies.length > 0 && <MoviesList movies={searchedMovies} />}
-        {!searchedMovies && <h2>No movies found</h2>}
-      </Section>
+      {isLoading && <Loader />}
+      {error && <ErrorScreen error={error} />}
+      {!error && (
+        <Section>
+          <MoviesList movies={searchedMovies} />
+        </Section>
+      )}
     </>
   );
 };

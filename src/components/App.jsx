@@ -1,57 +1,33 @@
-import { Suspense, lazy } from 'react';
+import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Cast from './Cast/Cast';
-import Reviews from './Reviews/Reviews';
-import { StyledHeader, StyledNav, StyledNavLink } from './Header/Header.styled';
-import Loader from './Loader/Loader';
+import Layout from './Layout';
 
 const Home = lazy(() => import('../pages/Home'));
 const Movies = lazy(() => import('../pages/Movies'));
 const MovieDetails = lazy(() => import('../pages/MovieDetails'));
+const Cast = lazy(() => import('./Cast/Cast'));
+const Reviews = lazy(() => import('./Reviews/Reviews'));
 
 const App = () => {
   return (
-    <div>
-      <StyledHeader>
-        <StyledNav>
-          <StyledNavLink to="/">Home</StyledNavLink>
-          <StyledNavLink to="/movies">Movies</StyledNavLink>
-        </StyledNav>
-      </StyledHeader>
+    <>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Suspense fallback={<Loader />}>
-              <Home />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/movies"
-          element={
-            <Suspense fallback={<Loader />}>
-              <Movies />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/movies/:movieId"
-          element={
-            <Suspense fallback={<Loader />}>
-              <MovieDetails />
-            </Suspense>
-          }
-        >
-          <Route path="cast" element={<Cast />} />
-          <Route path="reviews" element={<Reviews />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="movies" element={<Movies />} />
+          <Route path="movies/:movieId" element={<MovieDetails />}>
+            <Route path="cast" element={<Cast />} />
+            <Route path="reviews" element={<Reviews />} />
+          </Route>
         </Route>
-        <Route path="*" element={<Home />} />
+        <Route path="*" element={<Layout />}>
+          <Route path="*" element={<Home />} />
+        </Route>
       </Routes>
       <ToastContainer />
-    </div>
+    </>
   );
 };
 

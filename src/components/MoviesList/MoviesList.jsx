@@ -13,20 +13,22 @@ const MoviesList = ({ movies }) => {
   const location = useLocation();
   return (
     <StyledMoviesList>
-      {movies.map(({ id, poster_path, title }) => (
+      {movies.map(({ id, poster_path, title, original_title }) => (
         <MoviesListItem
           key={id}
           state={{ from: location }}
           to={`/movies/${id}`}
         >
-          {poster_path && (
-            <MoviesPoster
-              src={IMAGES_BASE_URL + poster_path}
-              loading="lazy"
-              alt={title}
-            />
-          )}
-          {<MoviesTitle>{title}</MoviesTitle>}
+          <MoviesPoster
+            src={
+              poster_path
+                ? IMAGES_BASE_URL + poster_path
+                : require('../../media/no-image-placeholder.png')
+            }
+            loading="lazy"
+            alt={title ? title : original_title}
+          />
+          {<MoviesTitle>{title ? title : original_title}</MoviesTitle>}
         </MoviesListItem>
       ))}
     </StyledMoviesList>

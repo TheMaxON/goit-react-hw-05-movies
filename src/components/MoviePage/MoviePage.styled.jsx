@@ -3,26 +3,45 @@ import { Link } from 'react-router-dom';
 
 export const MovieInfoSection = styled.div`
   display: flex;
-  justify-content: space-between;
-  gap: 50px;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 50px;
+  }
 `;
 
 export const MoviePoster = styled.img`
-  height: 80vh;
+  width: 70%;
   border-radius: 10px;
+  margin: auto;
 
   @media (min-width: 768px) {
+    width: auto;
+    height: 80vh;
+    margin: 0;
   }
 `;
 
 export const MovieDetails = styled.div`
-  width: 1200px;
+  width: 100%;
   color: var(--color-text);
   overflow: hidden;
+
+  @media (min-width: 768px) {
+    width: 1200px;
+  }
 `;
 
 export const Subheading = styled.h2`
-  font-size: 37px;
+  font-size: 30px;
+
+  @media (min-width: 1200px) {
+    font-size: 37px;
+  }
 `;
 
 export const Text = styled.p`
@@ -34,9 +53,7 @@ export const Text = styled.p`
 
 export const MovieAdditionalDetails = styled.div`
   width: 100%;
-  max-height: 700px;
   overflow: hidden auto;
-  padding: 20px;
   border-radius: 15px;
   background-color: var(--color-secondary);
   color: var(--color-text);
@@ -50,6 +67,10 @@ export const MovieAdditionalDetails = styled.div`
   }
   ::-webkit-scrollbar-thumb {
     background-color: var(--color-accent);
+  }
+
+  @media (min-width: 768px) {
+    padding: 20px;
   }
 `;
 

@@ -8,6 +8,7 @@ import {
   CastMemberPhoto,
   CastMemberInfo,
   CastMemberName,
+  CastMemberRole,
 } from './Cast.styled';
 import SmallLoader from '../Loader/SmallLoader';
 import ErrorScreen from '../ErrorScreen/ErrorScreen';
@@ -33,19 +34,11 @@ const Cast = () => {
         return setError(error);
       } finally {
         setIsLoading(false);
-        scrollToTop();
       }
     };
 
     fetchMovieCast();
   }, [movieId]);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 400,
-      behavior: 'smooth',
-    });
-  };
 
   const IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w200/';
 
@@ -71,7 +64,9 @@ const Cast = () => {
 
             <CastMemberInfo>
               <CastMemberName>{name}</CastMemberName>
-              <p>{character ? `as ${character}` : ''}</p>
+              <CastMemberRole>
+                {character ? `as ${character}` : ''}
+              </CastMemberRole>
             </CastMemberInfo>
           </CastMember>
         ))}

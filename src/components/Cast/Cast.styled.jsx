@@ -1,9 +1,18 @@
 import styled from '@emotion/styled';
 
 export const CastMemberWrapper = styled.div`
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
+
+  @media (min-width: 1000px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1400px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 `;
 
 export const CastMember = styled.div`
@@ -19,7 +28,7 @@ export const CastMemberPhoto = styled.img`
 
 export const CastMemberInfo = styled.div`
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   position: absolute;
   bottom: 0;
   background-color: #01000adb;
@@ -27,5 +36,13 @@ export const CastMemberInfo = styled.div`
 `;
 
 export const CastMemberName = styled.h2`
-  font-size: 20px;
+  font-size: 15px;
+
+  @media (min-width: 768px) {
+    font-size: 20px;
+  }
+`;
+
+export const CastMemberRole = styled.p`
+  font-size: 12px;
 `;

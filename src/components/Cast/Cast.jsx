@@ -33,11 +33,19 @@ const Cast = () => {
         return setError(error);
       } finally {
         setIsLoading(false);
+        scrollToTop();
       }
     };
 
     fetchMovieCast();
   }, [movieId]);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 400,
+      behavior: 'smooth',
+    });
+  };
 
   const IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w200/';
 

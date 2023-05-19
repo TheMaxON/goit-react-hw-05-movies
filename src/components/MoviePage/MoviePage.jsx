@@ -16,7 +16,7 @@ import { StyledNav, StyledNavLink } from '../Header/Header.styled';
 import Loader from '../Loader/Loader';
 
 const MoviePage = ({ movieInfo }) => {
-  const IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w400/';
+  const IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w500/';
   const { poster_path, title, original_title, vote_average, overview, genres } =
     movieInfo;
   const location = useLocation();
@@ -44,19 +44,19 @@ const MoviePage = ({ movieInfo }) => {
             <Text>{overview ? overview : 'No overview yet...'}</Text>
             <Subheading>Genres</Subheading>
             <Text>{genres && genres.map(genre => genre.name).join(', ')}</Text>
+            <MovieAdditionalDetails>
+              <Subheading>
+                Details about <i>{title ? title : original_title}</i>
+              </Subheading>
+              <StyledNav>
+                <StyledNavLink to="cast">Cast</StyledNavLink>
+                <StyledNavLink to="reviews">Reviews</StyledNavLink>
+              </StyledNav>
+              <Suspense fallback={<Loader />}>
+                <Outlet />
+              </Suspense>
+            </MovieAdditionalDetails>
           </MovieDetails>
-          <MovieAdditionalDetails>
-            <Subheading>
-              Details about <i>{title ? title : original_title}</i>
-            </Subheading>
-            <StyledNav>
-              <StyledNavLink to="cast">Cast</StyledNavLink>
-              <StyledNavLink to="reviews">Reviews</StyledNavLink>
-            </StyledNav>
-            <Suspense fallback={<Loader />}>
-              <Outlet />
-            </Suspense>
-          </MovieAdditionalDetails>
         </MovieInfoSection>
       </Section>
     </>

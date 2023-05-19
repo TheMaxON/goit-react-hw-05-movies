@@ -8,7 +8,11 @@ export const MovieInfoSection = styled.div`
 `;
 
 export const MoviePoster = styled.img`
+  height: 80vh;
   border-radius: 10px;
+
+  @media (min-width: 768px) {
+  }
 `;
 
 export const MovieDetails = styled.div`
@@ -29,8 +33,8 @@ export const Text = styled.p`
 `;
 
 export const MovieAdditionalDetails = styled.div`
-  width: 700px;
-  height: 600px;
+  width: 100%;
+  max-height: 700px;
   overflow: hidden auto;
   padding: 20px;
   border-radius: 15px;

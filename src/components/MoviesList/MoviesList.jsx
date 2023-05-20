@@ -7,7 +7,7 @@ import {
   MoviesTitle,
 } from './MoviesList.styled';
 
-const IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w300/';
+const IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w400/';
 
 const MoviesList = ({ movies }) => {
   const location = useLocation();

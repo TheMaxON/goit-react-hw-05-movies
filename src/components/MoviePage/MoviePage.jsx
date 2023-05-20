@@ -66,7 +66,7 @@ const MoviePage = ({ movieInfo }) => {
 export default MoviePage;
 
 MoviePage.propTypes = {
-  movieInfo: PropTypes.object.shape({
+  movieInfo: PropTypes.shape({
     poster_path: PropTypes.string,
     title: PropTypes.string,
     original_title: PropTypes.string,

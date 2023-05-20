@@ -57,7 +57,7 @@ const Movies = () => {
       </Section>
       {isLoading && <Loader />}
       {error && <ErrorScreen error={error} />}
-      {!error && (
+      {!error && searchedMovies.length > 0 && (
         <Section>
           <MoviesList movies={searchedMovies} />
         </Section>

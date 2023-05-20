@@ -53,6 +53,7 @@ export const Text = styled.p`
 
 export const MovieAdditionalDetails = styled.div`
   width: 100%;
+  height: 600px;
   overflow: hidden auto;
   border-radius: 15px;
   background-color: var(--color-secondary);

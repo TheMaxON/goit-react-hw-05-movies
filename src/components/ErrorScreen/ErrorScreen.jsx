@@ -3,6 +3,7 @@ import {
   ErrorScreenHeading,
   ErrorScreenDescription,
 } from './ErrorScreen.styled';
+import { PropTypes } from 'prop-types';
 
 const ErrorScreen = ({ error }) => {
   return (
@@ -16,3 +17,7 @@ const ErrorScreen = ({ error }) => {
 };
 
 export default ErrorScreen;
+
+ErrorScreen.propTypes = {
+  error: PropTypes.string.isRequired,
+};

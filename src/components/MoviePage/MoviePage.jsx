@@ -66,6 +66,12 @@ const MoviePage = ({ movieInfo }) => {
 export default MoviePage;
 
 MoviePage.propTypes = {
-  movieInfo: PropTypes.object,
-  Outlet: PropTypes.element,
+  movieInfo: PropTypes.object.shape({
+    poster_path: PropTypes.string,
+    title: PropTypes.string,
+    original_title: PropTypes.string,
+    vote_average: PropTypes.number,
+    overview: PropTypes.string,
+    genres: PropTypes.arrayOf(PropTypes.object),
+  }),
 };
